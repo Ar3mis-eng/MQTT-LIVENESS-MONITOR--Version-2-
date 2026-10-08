@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+
+# Credentials / local state -- NEVER COMMIT
+profiles.json
+data/profiles.json
+*.credentials.json
+
+# Logs and captures
+data/logs/
+data/raw/
+*.log
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Packaging
+build/
+dist/
+*.spec.bak

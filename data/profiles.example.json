@@ -1,0 +1,18 @@
+{
+    "profiles": [
+        {
+            "name": "Hotel Kitchen MQTT",
+            "host": "192.168.50.11",
+            "port": 1883,
+            "username": "",
+            "password": ""
+        },
+        {
+            "name": "Local Test Broker",
+            "host": "127.0.0.1",
+            "port": 1883,
+            "username": "",
+            "password": ""
+        }
+    ]
+}

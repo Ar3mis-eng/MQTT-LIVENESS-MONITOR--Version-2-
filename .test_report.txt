@@ -1,0 +1,44 @@
+$ D:\MQTT LIVENESS MONITOR\.venv\Scripts\python.exe -m pytest tests -v
+returncode=0
+
+=== STDOUT ===
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- D:\MQTT LIVENESS MONITOR\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\MQTT LIVENESS MONITOR
+collecting ... collected 28 items
+
+tests/test_classifiers.py::test_cmd_topic_classified_command PASSED      [  3%]
+tests/test_classifiers.py::test_connection_online_offline_retained PASSED [  7%]
+tests/test_classifiers.py::test_heartbeat_counter_steady PASSED          [ 10%]
+tests/test_classifiers.py::test_periodic_steady_interval PASSED          [ 14%]
+tests/test_classifiers.py::test_on_change_irregular PASSED               [ 17%]
+tests/test_discovery.py::test_discovery_counts_and_retained_flag PASSED  [ 21%]
+tests/test_hotel_registry.py::test_registry_has_complete_roots_and_required_devices PASSED [ 25%]
+tests/test_hotel_registry.py::test_commands_are_monitor_only_with_disabled_publishing PASSED [ 28%]
+tests/test_hotel_registry.py::test_registry_does_not_include_disabled_or_reserved_topics PASSED [ 32%]
+tests/test_hotel_registry.py::test_expected_intervals_are_only_set_for_known_timing PASSED [ 35%]
+tests/test_hotel_registry.py::test_default_broker_profile_is_hotel_broker PASSED [ 39%]
+tests/test_monitor.py::test_connection_online_alive PASSED               [ 42%]
+tests/test_monitor.py::test_connection_offline_dead_and_retained_offline_dead PASSED [ 46%]
+tests/test_monitor.py::test_retained_online_connection_is_not_proof_of_live_connection PASSED [ 50%]
+tests/test_monitor.py::test_never_seen PASSED                            [ 53%]
+tests/test_monitor.py::test_bad_quality_is_own_state PASSED              [ 57%]
+tests/test_monitor.py::test_periodic_timeout_stale_then_dead PASSED      [ 60%]
+tests/test_monitor.py::test_heartbeat_counter_stuck_is_not_alive PASSED  [ 64%]
+tests/test_monitor.py::test_heartbeat_counter_backwards_is_not_alive PASSED [ 67%]
+tests/test_monitor.py::test_heartbeat_healthy_alive PASSED               [ 71%]
+tests/test_monitor.py::test_retained_on_change_snapshot_is_not_treated_as_live PASSED [ 75%]
+tests/test_monitor.py::test_live_on_change_state_does_not_timeout_by_age PASSED [ 78%]
+tests/test_monitor.py::test_command_never_times_out PASSED               [ 82%]
+tests/test_monitor.py::test_tier_sorting_dead_tier1_first PASSED         [ 85%]
+tests/test_topic_config.py::test_default_hotel_topics_load_and_validate PASSED [ 89%]
+tests/test_topic_config.py::test_duplicate_and_bad_entries_rejected PASSED [ 92%]
+tests/test_topic_config.py::test_save_round_trip PASSED                  [ 96%]
+tests/test_topic_config.py::test_profiles_not_in_topics PASSED           [100%]
+
+============================= 28 passed in 0.13s ==============================
+
+
+=== STDERR ===
+
