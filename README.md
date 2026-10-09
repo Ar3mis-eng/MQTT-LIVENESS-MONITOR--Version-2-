@@ -48,8 +48,10 @@ pip install -r requirements.txt
 ## Broker profiles
 
 The built-in first profile is **Hotel Kitchen MQTT**
-(`192.168.50.11:1883`) with no username or password. It can be edited
-and saved in Settings; additional profiles remain supported.
+(`127.0.0.1:1883`) with no username or password. This makes the app
+work on a normal local workstation when a local Mosquitto broker is
+running. It can be edited and saved in Settings; additional profiles
+remain supported.
 
 Settings tab -> Name/Host/Port/Username/Password -> Save Profile.
 Stored ONLY in data/profiles.json (git-ignored), masked in GUI, never

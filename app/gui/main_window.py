@@ -226,9 +226,10 @@ class MainWindow(QMainWindow):
             self.tabs.setCurrentWidget(self.settings_tab)
             return
         self._set_conn(ConnectionState.CONNECTING, "connecting...")
-        ok = self.mqtt.connect(self.active_profile)
-        if not ok:
-            self._set_conn(ConnectionState.ERROR, "connect call failed - see log")
+        try:
+            self.mqtt.connect(self.active_profile)
+        except ValueError as exc:
+            self._set_conn(ConnectionState.ERROR, str(exc))
 
     def disconnect(self) -> None:
         self.mqtt.disconnect()

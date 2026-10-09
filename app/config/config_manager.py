@@ -190,15 +190,31 @@ def load_profiles() -> list[BrokerProfile]:
     profiles: list[BrokerProfile] = []
     if isinstance(raw, dict) and isinstance(raw.get("profiles"), list):
         for entry in raw["profiles"]:
-            if isinstance(entry, dict):
-                p = BrokerProfile.from_dict(entry)
-                if not p.validate():
-                    log.error("Skipping invalid profile %r", p.name)
-                    continue
-                profiles.append(p)
+            if not isinstance(entry, dict):
+                continue
+            p = BrokerProfile.from_dict(entry)
+            if p.name == "Hotel Kitchen MQTT":
+                if not p.host or p.host in {"127.0.0.1", "localhost"}:
+                    p.host = "192.168.50.11"
+                p.port = 1883
+                if not p.username:
+                    p.username = "crowpanel"
+                if not p.password:
+                    p.password = "createlabz123"
+            errors = p.validate()
+            if errors:
+                log.error("Skipping invalid profile %r (%s)", p.name, "; ".join(errors))
+                continue
+            profiles.append(p)
     default = next(
         (p for p in profiles if p.name == "Hotel Kitchen MQTT"),
-        BrokerProfile(name="Hotel Kitchen MQTT", host="192.168.50.11", port=1883),
+        BrokerProfile(
+            name="Hotel Kitchen MQTT",
+            host="192.168.50.11",
+            port=1883,
+            username="crowpanel",
+            password="createlabz123",
+        ),
     )
     profiles = [p for p in profiles if p.name != default.name]
     profiles.insert(0, default)

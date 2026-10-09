@@ -1,4 +1,15 @@
-2026-10-08 10:40:10,717 INFO root: Starting MQTT Topic Liveness Monitor (READ-ONLY)
-2026-10-08 10:40:10,736 INFO app.monitoring.topic_monitor: Monitor configured with 78 topics
-2026-10-08 10:41:26,600 INFO app.mqtt.client: Disconnected (user requested)
+2026-10-09 10:49:12,948 INFO root: Starting MQTT Topic Liveness Monitor (READ-ONLY)
+2026-10-09 10:49:12,965 ERROR app.config.config_manager: Skipping invalid profile 'Hotel Kitchen MQTT'
+2026-10-09 10:49:12,966 INFO app.monitoring.topic_monitor: Monitor configured with 78 topics
+2026-10-09 10:49:16,203 INFO app.mqtt.client: Connecting to Hotel Kitchen MQTT (127.0.0.1:1883) with client id 'ojt-g1-monitor' (read-only)
+2026-10-09 10:49:16,217 INFO app.mqtt.client: Connected to broker; (re)subscribed to []
+2026-10-09 10:49:21,406 INFO app.mqtt.discovery: Discovery started (subscribing to # only; read-only)
+2026-10-09 10:50:06,081 INFO app.config.config_manager: Saved 1 broker profiles to C:\Users\Alex\Downloads\MQTT-LIVENESS-MONITOR--Version-2-\data\profiles.json (contents not logged)
+2026-10-09 10:50:15,425 INFO app.mqtt.discovery: Discovery started (subscribing to # only; read-only)
+2026-10-09 10:50:16,362 INFO app.mqtt.discovery: Discovery started (subscribing to # only; read-only)
+2026-10-09 10:50:21,754 INFO app.mqtt.discovery: Discovery stopped after 5.4s: 0 unique topics, 0 messages
+2026-10-09 10:50:33,344 INFO app.mqtt.client: Disconnected (user requested)
+2026-10-09 10:50:55,333 INFO app.mqtt.client: Connecting to Hotel Kitchen MQTT (127.0.0.1:1883) with client id 'ojt-g1-monitor' (read-only)
+2026-10-09 10:50:55,351 INFO app.mqtt.client: Connected to broker; (re)subscribed to ['prion-clabz/aeon/kitch01/exhaust-system/main/#', 'prion-clabz/aeon/kitch01/fresh-air-system/main/#']
+2026-10-09 10:51:06,116 INFO app.mqtt.client: Disconnected (user requested)
 EXITCODE=0 
