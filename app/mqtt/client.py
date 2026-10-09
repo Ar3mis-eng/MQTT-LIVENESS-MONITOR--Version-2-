@@ -135,26 +135,32 @@ class ReadOnlyMqttClient:
     def set_on_message(self, cb: MessageHandler | None) -> None:
         self._on_message_cb = cb
 
-    def connect(self, profile: BrokerProfile) -> None:
+    def connect(self, profile: BrokerProfile) -> bool:
         """Start connecting (non-blocking). Auto-reconnect stays active."""
         errors = profile.validate()
         if errors:
             raise ValueError("; ".join(errors))
-        with self._lock:
-            self._want_connection = True
-            self._set_state(ConnectionState.CONNECTING, profile.masked)
-        if profile.username:
-            self._client.username_pw_set(profile.username, profile.password or None)
-        else:
-            self._client.username_pw_set(None, None)
-        # connect_async + loop_start: never blocks the calling (GUI) thread.
-        self._client.connect_async(profile.host, profile.port, keepalive=30)
-        self._client.loop_start()
-        log.info(
-            "Connecting to %s with client id %r (read-only)",
-            profile.masked,
-            self._client_id,
-        )
+        try:
+            with self._lock:
+                self._want_connection = True
+                self._set_state(ConnectionState.CONNECTING, profile.masked)
+            if profile.username:
+                self._client.username_pw_set(profile.username, profile.password or None)
+            else:
+                self._client.username_pw_set(None, None)
+            # connect_async + loop_start: never blocks the calling (GUI) thread.
+            self._client.connect_async(profile.host, profile.port, keepalive=30)
+            self._client.loop_start()
+            log.info(
+                "Connecting to %s with client id %r (read-only)",
+                profile.masked,
+                self._client_id,
+            )
+            return True
+        except (OSError, RuntimeError, ValueError) as exc:
+            self._set_state(ConnectionState.ERROR, f"connect setup failed: {exc}")
+            log.exception("MQTT connect setup failed for %s:%s", profile.host, profile.port)
+            return False
 
     def disconnect(self) -> None:
         """User-requested disconnect: disables auto-reconnect."""

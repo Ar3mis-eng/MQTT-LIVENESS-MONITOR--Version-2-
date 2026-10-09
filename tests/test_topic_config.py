@@ -46,3 +46,112 @@ def test_profiles_not_in_topics(tmp_path):
     raw = json.loads(topics_path().read_text(encoding="utf-8"))
     blob = json.dumps(raw).lower()
     assert "password" not in blob
+
+
+def test_default_profile_uses_hmi_broker_without_credentials(monkeypatch, tmp_path):
+    import app.config.config_manager as cm
+
+    monkeypatch.setattr(cm, "profiles_path", lambda: tmp_path / "profiles.json")
+    profiles = cm.load_profiles()
+
+    assert profiles[0].name == "Hotel Kitchen MQTT"
+    assert profiles[0].host == "192.168.50.11"
+    assert profiles[0].port == 1883
+    assert profiles[0].username == ""
+    assert profiles[0].password == ""
+
+
+def test_legacy_profile_is_migrated_to_hmi_broker_without_credentials(
+    monkeypatch, tmp_path
+):
+    import json
+    import app.config.config_manager as cm
+
+    path = tmp_path / "profiles.json"
+    path.write_text(
+        json.dumps({
+            "profiles": [{
+                "name": "Hotel Kitchen MQTT",
+                "host": "127.0.0.1",
+                "port": 1883,
+                "username": "",
+                "password": "",
+            }]
+        }),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(cm, "profiles_path", lambda: path)
+
+    profiles = cm.load_profiles()
+
+    assert profiles[0].name == "Hotel Kitchen MQTT"
+    assert profiles[0].host == "192.168.50.11"
+    assert profiles[0].port == 1883
+    assert profiles[0].username == ""
+    assert profiles[0].password == ""
+
+
+def test_mqtt_connect_returns_true_when_connect_async_is_scheduled():
+    from app.config.models import BrokerProfile
+    from app.mqtt.client import ReadOnlyMqttClient
+
+    class DummyClient:
+        def username_pw_set(self, username, password):
+            pass
+
+        def connect_async(self, host, port, keepalive):
+            pass
+
+        def loop_start(self):
+            pass
+
+    client = ReadOnlyMqttClient()
+    client._client = DummyClient()
+    profile = BrokerProfile(name="Test", host="127.0.0.1", port=1883)
+
+    assert client.connect(profile) is True
+    assert client.state.value == "CONNECTING"
+
+
+def test_mqtt_connect_failure_sets_error_state():
+    from app.config.models import BrokerProfile
+    from app.mqtt.client import ReadOnlyMqttClient
+
+    class DummyClient:
+        def username_pw_set(self, username, password):
+            pass
+
+        def connect_async(self, host, port, keepalive):
+            raise OSError("test connection setup failure")
+
+    client = ReadOnlyMqttClient()
+    client._client = DummyClient()
+    profile = BrokerProfile(name="Test", host="127.0.0.1", port=1883)
+
+    assert client.connect(profile) is False
+    assert client.state.value == "ERROR"
+
+
+def test_saved_profile_credentials_are_preserved(monkeypatch, tmp_path):
+    import json
+    import app.config.config_manager as cm
+
+    path = tmp_path / "profiles.json"
+    path.write_text(
+        json.dumps({
+            "profiles": [{
+                "name": "Hotel Kitchen MQTT",
+                "host": "192.168.50.11",
+                "port": 1883,
+                "username": "test-user",
+                "password": "test-password",
+            }]
+        }),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(cm, "profiles_path", lambda: path)
+
+    profiles = cm.load_profiles()
+
+    assert profiles[0].username == "test-user"
+    assert profiles[0].password == "test-password"
