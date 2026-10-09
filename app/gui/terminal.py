@@ -69,6 +69,11 @@ class LiveTerminal(QWidget):
         self.view.setMaximumBlockCount(max_lines)
         self.view.setFont(QFont("Consolas", 9))
         self.view.setPlaceholderText("MQTT traffic appears here once connected…")
+        self.view.setStyleSheet(
+            "QPlainTextEdit { background-color: #ffffff; color: #263238; "
+            "selection-background-color: #e6f5f3; selection-color: #006e65; "
+            "border: 1px solid #d9e8e6; border-radius: 6px; }"
+        )
         layout.addWidget(self.view, 1)
 
     # -- configuration --------------------------------------------------
