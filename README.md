@@ -32,12 +32,11 @@ tests/test_monitor.py test_classifiers.py test_discovery.py test_topic_config.py
 
 ## Install (Windows)
 
-```bat
-cd /d "D:\MQTT LIVENESS MONITOR"
-py -3.12 -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-```
+Install Python (3.12 recommended) and make sure the device has internet access
+for the initial dependency download. Then double-click `tools\launch.bat`.
+It creates the project virtual environment if needed, installs the packages
+listed in `requirements.txt`, and starts the application. Run the same launcher
+again whenever you want to start the program.
 
 ## Run
 
